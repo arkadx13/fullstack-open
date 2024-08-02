@@ -5,12 +5,33 @@ const FeedbackButton = ({ onClick, text }) => (
 );
 
 const FeedbackStatistics = ({ value, text }) => {
-	console.log(text, value);
-
 	return (
 		<div>
 			{text} {value}
 		</div>
+	);
+};
+
+const Statistics = ({
+	good,
+	neutral,
+	bad,
+	feedbackCounts,
+	averageScore,
+	positivePercentage,
+}) => {
+	return (
+		<>
+			<FeedbackStatistics value={good} text="good" />
+			<FeedbackStatistics value={neutral} text="neutral" />
+			<FeedbackStatistics value={bad} text="bad" />
+			<FeedbackStatistics value={feedbackCounts} text="all" />
+			<FeedbackStatistics value={averageScore || 0} text="average" />
+			<FeedbackStatistics
+				value={positivePercentage || 0}
+				text="positive"
+			/>
+		</>
 	);
 };
 
@@ -36,14 +57,13 @@ const App = () => {
 			<FeedbackButton onClick={handleBadFeedback} text="bad" />
 
 			<h1>statistics</h1>
-			<FeedbackStatistics value={good} text="good" />
-			<FeedbackStatistics value={neutral} text="neutral" />
-			<FeedbackStatistics value={bad} text="bad" />
-			<FeedbackStatistics value={feedbackCounts} text="all" />
-			<FeedbackStatistics value={averageScore || 0} text="average" />
-			<FeedbackStatistics
-				value={positivePercentage || 0}
-				text="positive"
+			<Statistics
+				good={good}
+				neutral={neutral}
+				bad={bad}
+				feedbackCounts={feedbackCounts}
+				averageScore={averageScore}
+				positivePercentage={positivePercentage}
 			/>
 		</div>
 	);
