@@ -4,9 +4,10 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 const StatisticsLine = ({ value, text }) => {
 	return (
-		<div>
-			{text} {value}
-		</div>
+		<tr>
+			<th>{text}</th>
+			<td>{value}</td>
+		</tr>
 	);
 };
 
@@ -19,14 +20,19 @@ const Statistics = ({
 	positivePercentage,
 }) => {
 	return (
-		<>
-			<StatisticsLine value={good} text="good" />
-			<StatisticsLine value={neutral} text="neutral" />
-			<StatisticsLine value={bad} text="bad" />
-			<StatisticsLine value={feedbackCounts} text="all" />
-			<StatisticsLine value={averageScore || 0} text="average" />
-			<StatisticsLine value={positivePercentage || 0} text="positive" />
-		</>
+		<table style={{ textAlign: "left" }}>
+			<tbody>
+				<StatisticsLine value={good} text="good" />
+				<StatisticsLine value={neutral} text="neutral" />
+				<StatisticsLine value={bad} text="bad" />
+				<StatisticsLine value={feedbackCounts} text="all" />
+				<StatisticsLine value={averageScore || 0} text="average" />
+				<StatisticsLine
+					value={positivePercentage || 0}
+					text="positive"
+				/>
+			</tbody>
+		</table>
 	);
 };
 
