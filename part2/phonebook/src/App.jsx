@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const Contact = ({ person }) => {
 	return (
@@ -33,16 +36,18 @@ const App = () => {
 		}
 
 		// make sure all fields submitted are filled
-		if (newName !== "" && newNumber !== "") {
+		if (newName.trim() !== "" && newNumber.trim() !== "") {
 			const newPerson = {
-				name: newName,
-				number: newNumber,
+				name: newName.trim(),
+				number: newNumber.trim(),
 				id: persons.length + 1,
 			};
 
 			setPersons(persons.concat(newPerson));
 			setNewName("");
 			setNewNumber("");
+			// to reset search and show all contacts
+			setKeyword("");
 		}
 	};
 
@@ -60,34 +65,17 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<div>
-				filter shown with{" "}
-				<input value={keyword} onChange={handleFilter} />
-			</div>
+			<Filter keyword={keyword} handleFilter={handleFilter} />
 			<h3>add a new</h3>
-			<form onSubmit={handleAddContact}>
-				<div>
-					name:{" "}
-					<input
-						value={newName}
-						onChange={(event) => setNewName(event.target.value)}
-					/>
-				</div>
-				<div>
-					number:{" "}
-					<input
-						value={newNumber}
-						onChange={(event) => setNewNumber(event.target.value)}
-					/>
-				</div>
-				<div>
-					<button type="submit">add</button>
-				</div>
-			</form>
+			<PersonForm
+				newName={newName}
+				newNumber={newNumber}
+				handleAddContact={handleAddContact}
+				setNewName={setNewName}
+				setNewNumber={setNewNumber}
+			/>
 			<h3>Numbers</h3>
-			{personsToShow.map((person) => (
-				<Contact key={person.name} person={person} />
-			))}
+			<Persons personsToShow={personsToShow} />
 		</div>
 	);
 };
