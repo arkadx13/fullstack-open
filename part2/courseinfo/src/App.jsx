@@ -21,6 +21,7 @@ const Content = ({ parts }) => {
 };
 
 const TotalExercises = ({ parts }) => {
+	// get the sum of all exercises
 	const totalExercises = parts.reduce(
 		(total, part) => (total += part.exercises),
 		0
