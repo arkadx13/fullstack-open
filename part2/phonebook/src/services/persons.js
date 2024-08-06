@@ -6,8 +6,12 @@ const getAll = () => {
 	return axios.get(baseUrl).then((response) => response.data);
 };
 
-const create = (newPerson) => {
+const createContact = (newPerson) => {
 	return axios.post(baseUrl, newPerson).then((response) => response.data);
 };
 
-export default { getAll, create };
+const removeContact = (id) => {
+	return axios.delete(`${baseUrl}/${id}`).then((response) => response.data);
+};
+
+export default { getAll, createContact, removeContact };

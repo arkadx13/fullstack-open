@@ -35,13 +35,34 @@ const App = () => {
 				number: newNumber.trim(),
 			};
 
-			personServices.create(newPerson).then((returnedPerson) => {
+			personServices.createContact(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
 				setNewName("");
 				setNewNumber("");
 				// to reset search and show all contacts
 				setKeyword("");
 			});
+		}
+	};
+
+	const handleDelete = (id) => {
+		const person = persons.find((person) => person.id === id);
+		if (window.confirm(`Delete ${person.name}?`)) {
+			personServices
+				.removeContact(id)
+				.then((removedContact) => {
+					// if successfully deleted
+					setPersons(
+						persons.filter(
+							(person) => person.id !== removedContact.id
+						)
+					);
+					alert(`${person.name} successfully deleted.`);
+				})
+				.catch((error) => {
+					alert(`Failed to  delete. Contact not found.`);
+					console.log(error);
+				});
 		}
 	};
 
@@ -68,7 +89,10 @@ const App = () => {
 				setNewNumber={setNewNumber}
 			/>
 			<h3>Numbers</h3>
-			<Persons personsToShow={personsToShow} />
+			<Persons
+				personsToShow={personsToShow}
+				handleDelete={handleDelete}
+			/>
 		</div>
 	);
 };
