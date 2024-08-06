@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import personServices from "./services/persons";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -13,14 +13,13 @@ const App = () => {
 	const personsToShow = keyword === "" ? persons : filteredPersons;
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/persons").then((response) => {
-			setPersons(response.data);
+		personServices.getAll().then((initialPersons) => {
+			setPersons(initialPersons);
 		});
 	}, []);
 
 	const handleAddContact = (event) => {
 		event.preventDefault();
-
 		// check if contact exists already
 		const isExisting = persons.find((person) => person.name === newName);
 
@@ -34,14 +33,15 @@ const App = () => {
 			const newPerson = {
 				name: newName.trim(),
 				number: newNumber.trim(),
-				id: String(persons.length + 1),
 			};
 
-			setPersons(persons.concat(newPerson));
-			setNewName("");
-			setNewNumber("");
-			// to reset search and show all contacts
-			setKeyword("");
+			personServices.create(newPerson).then((returnedPerson) => {
+				setPersons(persons.concat(returnedPerson));
+				setNewName("");
+				setNewNumber("");
+				// to reset search and show all contacts
+				setKeyword("");
+			});
 		}
 	};
 
@@ -55,7 +55,6 @@ const App = () => {
 		setFilteredPersons(filtered);
 	};
 
-	// const filteredPersons =
 	return (
 		<div>
 			<h2>Phonebook</h2>
