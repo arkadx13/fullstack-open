@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import personServices from "./services/persons";
+import personService from "./services/persons";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -13,7 +13,7 @@ const App = () => {
 	const personsToShow = keyword === "" ? persons : filteredPersons;
 
 	useEffect(() => {
-		personServices.getAll().then((initialPersons) => {
+		personService.getAll().then((initialPersons) => {
 			setPersons(initialPersons);
 		});
 	}, []);
@@ -35,7 +35,7 @@ const App = () => {
 				number: newNumber.trim(),
 			};
 
-			personServices.createContact(newPerson).then((returnedPerson) => {
+			personService.createContact(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
 				setNewName("");
 				setNewNumber("");
@@ -48,7 +48,7 @@ const App = () => {
 	const handleDelete = (id) => {
 		const person = persons.find((person) => person.id === id);
 		if (window.confirm(`Delete ${person.name}?`)) {
-			personServices
+			personService
 				.removeContact(id)
 				.then((removedContact) => {
 					// if successfully deleted
@@ -58,6 +58,8 @@ const App = () => {
 						)
 					);
 					alert(`${person.name} successfully deleted.`);
+					// to reset search and show all contacts if search input was filled
+					setKeyword("");
 				})
 				.catch((error) => {
 					alert(`Failed to  delete. Contact not found.`);
