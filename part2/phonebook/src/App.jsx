@@ -20,29 +20,49 @@ const App = () => {
 
 	const handleAddContact = (event) => {
 		event.preventDefault();
+		const personName = newName.trim();
+		const personNumber = newNumber.trim();
 		// check if contact exists already
-		const isExisting = persons.find((person) => person.name === newName);
+		const person = persons.find((person) => person.name === personName);
 
-		if (isExisting) {
-			alert(`${newName} is already added to phonebook`);
-			return;
-		}
+		if (person) {
+			if (
+				window.confirm(
+					`${person.name} is already added to phonebook, replace the old number with the new one?`
+				)
+			) {
+				const updatedContact = { ...person, number: personNumber };
 
-		// make sure all fields submitted are filled
-		if (newName.trim() !== "" && newNumber.trim() !== "") {
+				personService
+					.updateContact(person.id, updatedContact)
+					.then((returnedPerson) => {
+						setPersons(
+							persons.map((contact) =>
+								contact.id !== person.id
+									? contact
+									: returnedPerson
+							)
+						);
+					});
+			}
+		} else if (personName !== "" && personNumber !== "") {
+			// Check and make sure all fields submitted are filled
+			// create object to be send to server
 			const newPerson = {
-				name: newName.trim(),
-				number: newNumber.trim(),
+				name: personName,
+				number: personNumber,
 			};
 
 			personService.createContact(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
-				setNewName("");
-				setNewNumber("");
-				// to reset search and show all contacts
-				setKeyword("");
 			});
 		}
+
+		// reset form
+		setNewName("");
+		setNewNumber("");
+		// reset search and show all contacts
+		setKeyword("");
 	};
 
 	const handleDelete = (id) => {
