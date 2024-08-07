@@ -11,7 +11,7 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState("");
 	const [keyword, setKeyword] = useState("");
 	const [filteredPersons, setFilteredPersons] = useState([]);
-	const [message, setMessage] = useState(null);
+	const [message, setMessage] = useState({ content: null, type: null });
 	const personsToShow = keyword === "" ? persons : filteredPersons;
 
 	useEffect(() => {
@@ -46,12 +46,32 @@ const App = () => {
 							)
 						);
 						// Notification for changing number
-						setMessage(
-							`${person.name}'s number successfully changed`
-						);
+						setMessage({
+							content: `${person.name}'s number successfully changed`,
+							type: "message",
+						});
+
 						setTimeout(() => {
-							setMessage(null);
+							setMessage({
+								content: null,
+								type: null,
+							});
 						}, 5000);
+					})
+					.catch((error) => {
+						// Notification for unsuccessful changing of number
+						setMessage({
+							content: `Changing number for ${person.name} unsuccessful`,
+							type: "error",
+						});
+
+						setTimeout(() => {
+							setMessage({
+								content: null,
+								type: null,
+							});
+						}, 5000);
+						console.log(error);
 					});
 			}
 		} else if (personName !== "" && personNumber !== "") {
@@ -65,9 +85,13 @@ const App = () => {
 			personService.createContact(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
 				// Notification for successful addition of new contact
-				setMessage(`Added ${returnedPerson.name}`);
+				setMessage({
+					content: `Added ${returnedPerson.name}`,
+					type: "message",
+				});
+
 				setTimeout(() => {
-					setMessage(null);
+					setMessage({ content: null, type: null });
 				}, 5000);
 			});
 		}
@@ -91,12 +115,29 @@ const App = () => {
 							(person) => person.id !== removedContact.id
 						)
 					);
-					alert(`${person.name} successfully deleted.`);
+					// Notification for successfull deletion
+					setMessage({
+						content: `${person.name} successfully deleted.`,
+						type: "message",
+					});
+
+					setTimeout(() => {
+						setMessage({ content: null, type: null });
+					}, 5000);
+
 					// to reset search and show all contacts if search input was filled
 					setKeyword("");
 				})
 				.catch((error) => {
-					alert(`Failed to  delete. Contact not found.`);
+					// Notifcation for error
+					setMessage({
+						content: `Information of ${person.name} has already been removed from server`,
+						type: "error",
+					});
+
+					setTimeout(() => {
+						setMessage({ content: null, type: null });
+					}, 5000);
 					console.log(error);
 				});
 		}
@@ -115,7 +156,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<Notification message={message} />
+			<Notification message={message.content} type={message.type} />
 			<Filter keyword={keyword} handleFilter={handleFilter} />
 			<h3>add a new</h3>
 			<PersonForm
