@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -10,6 +11,7 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState("");
 	const [keyword, setKeyword] = useState("");
 	const [filteredPersons, setFilteredPersons] = useState([]);
+	const [message, setMessage] = useState(null);
 	const personsToShow = keyword === "" ? persons : filteredPersons;
 
 	useEffect(() => {
@@ -43,6 +45,13 @@ const App = () => {
 									: returnedPerson
 							)
 						);
+						// Notification for changing number
+						setMessage(
+							`${person.name}'s number successfully changed`
+						);
+						setTimeout(() => {
+							setMessage(null);
+						}, 5000);
 					});
 			}
 		} else if (personName !== "" && personNumber !== "") {
@@ -55,6 +64,11 @@ const App = () => {
 
 			personService.createContact(newPerson).then((returnedPerson) => {
 				setPersons(persons.concat(returnedPerson));
+				// Notification for successful addition of new contact
+				setMessage(`Added ${returnedPerson.name}`);
+				setTimeout(() => {
+					setMessage(null);
+				}, 5000);
 			});
 		}
 
@@ -101,6 +115,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
+			<Notification message={message} />
 			<Filter keyword={keyword} handleFilter={handleFilter} />
 			<h3>add a new</h3>
 			<PersonForm
