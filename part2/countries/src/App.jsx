@@ -28,7 +28,11 @@ const App = () => {
 
 	return (
 		<div>
-			<Filter country={country} setCountry={setCountry} />
+			<Filter
+				country={country}
+				setCountry={setCountry}
+				allCountries={allCountries}
+			/>
 			{!country ? null : (
 				<Countries
 					countries={filteredCountries}
