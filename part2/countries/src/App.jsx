@@ -20,10 +20,21 @@ const App = () => {
 		setFilteredCountries(searchResult);
 	}, [country]);
 
+	const handleShow = (name) => {
+		countryService
+			.getCountry(name)
+			.then((data) => setFilteredCountries([data]));
+	};
+
 	return (
 		<div>
 			<Filter country={country} setCountry={setCountry} />
-			{!country ? null : <Countries countries={filteredCountries} />}
+			{!country ? null : (
+				<Countries
+					countries={filteredCountries}
+					handleShow={handleShow}
+				/>
+			)}
 		</div>
 	);
 };
