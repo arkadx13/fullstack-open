@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Countries from "./components/Countries";
 import Filter from "./components/Filter";
+import countryService from "./services/countries.js";
 
 const App = () => {
 	const [filteredCountries, setFilteredCountries] = useState([]);
@@ -9,9 +10,7 @@ const App = () => {
 	const [country, setCountry] = useState("");
 
 	useEffect(() => {
-		axios
-			.get("https://studies.cs.helsinki.fi/restcountries/api/all")
-			.then((response) => setAllCountries(response.data));
+		countryService.getAll().then((data) => setAllCountries(data));
 	}, []);
 
 	useEffect(() => {
