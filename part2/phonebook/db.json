@@ -1,39 +1,39 @@
 {
-  "persons": [
-    {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
-    },
-    {
-      "id": "7ae6",
-      "name": "Lewis Mac",
-      "number": "09123123456"
-    },
-    {
-      "id": "5eca",
-      "name": "Arthur Mac",
-      "number": "0976482384623746"
-    },
-    {
-      "id": "de5a",
-      "name": "Rico Yan",
-      "number": "0977772424242"
-    }
-  ]
+	"persons": [
+		{
+			"name": "Arto Hellas",
+			"number": "040-123456",
+			"id": "1"
+		},
+		{
+			"name": "Ada Lovelace",
+			"number": "39-44-5323523",
+			"id": "2"
+		},
+		{
+			"name": "Dan Abramov",
+			"number": "12-43-234345",
+			"id": "3"
+		},
+		{
+			"name": "Mary Poppendieck",
+			"number": "39-23-6423122",
+			"id": "4"
+		},
+		{
+			"id": "7ae6",
+			"name": "Lewis Mac",
+			"number": "09123123456"
+		},
+		{
+			"id": "5eca",
+			"name": "Arthur Mac",
+			"number": "0976482384623746"
+		},
+		{
+			"id": "de5a",
+			"name": "Rico Yan",
+			"number": "0977772424242"
+		}
+	]
 }
